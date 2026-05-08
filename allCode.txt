@@ -1,0 +1,605 @@
+//practical no.1 applet key
+
+import java.awt.*;
+import java.awt.event.*;
+import java.applet.*;
+/*
+<applet code="SimpleKey" width=300 height=300>
+</applet>
+*/
+
+public class SimpleKey extends Applet implements KeyListener
+{
+	String msg = "";
+	int X = 100, Y = 100; // output coordinates
+		public void init()
+		{
+			addKeyListener(this);
+		}
+		public void keyPressed(KeyEvent ke)
+		{
+			showStatus("Key has been pressed by user");
+		}
+		public void keyReleased(KeyEvent ke)
+		{
+			showStatus("Key has been released by user");
+		}
+		public void keyTyped(KeyEvent ke)
+		{
+			msg += ke.getKeyChar();
+			repaint();
+		}
+	
+	public void paint(Graphics g)
+	{
+		g.drawString(msg, X, Y);
+	}
+}
+
+//to run in terminal
+// set path=C:\Program Files\Java\jdk-1.8\bin;
+// javac SimpleKey.java
+// appletviewer SimpleKey.java
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+=========================================================================================================================================================
+
+//practical no.2 AWT mouse 
+
+import java.awt.*;
+import java.awt.event.*;
+
+public class mouse_event extends Frame implements MouseListener {
+    Label l;
+
+    mouse_event() {
+        addMouseListener(this);
+        l = new Label();
+        l.setBounds(20, 50, 100, 20);
+        add(l);
+        setSize(300, 300);
+        setLayout(null);
+        setVisible(true);
+    }
+
+    public void mouseClicked(MouseEvent e) {
+        l.setText("Mouse Clicked");
+    }
+
+    public void mouseEntered(MouseEvent e) {
+        l.setText("Mouse Entered");
+    }
+
+    public void mouseExited(MouseEvent e) {
+        l.setText("Mouse Exited");
+    }
+
+    public void mousePressed(MouseEvent e) {
+        l.setText("Mouse Pressed");
+    }
+
+    public void mouseReleased(MouseEvent e) {
+        l.setText("Mouse Released");
+    }
+
+    public static void main(String[] args) {
+        new mouse_event();
+    }
+}
+
+//to run in terminal
+// set path=C:\Program Files\Java\jdk-1.8\bin;
+// javac mouse_event.java
+// java mouse_event
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+===============================================================================================================================================================
+// practical no.3 swing awt GUI for marks
+
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
+
+public class ReportCard extends JFrame {
+	JPanel jp = new JPanel();
+	JLabel lname = new JLabel();
+	JButton b1 = new JButton("Click Me");
+	JTextField tname = new JTextField(20);
+	JLabel lMath = new JLabel();
+	JTextField tMath = new JTextField(20);
+	JLabel lScience = new JLabel();
+	JTextField tScience = new JTextField(20);
+	JLabel lEnglish = new JLabel();
+	JTextField tEnglish = new JTextField(20);
+
+	public ReportCard() {
+		lname.setText("Enter Name");
+		jp.add(lname);
+		jp.add(tname);
+		lMath.setText("Enter Math Marks");
+		jp.add(lMath);
+		jp.add(tMath);
+		lScience.setText("Enter Science Marks");
+		jp.add(lScience);
+		jp.add(tScience);
+		lEnglish.setText("Enter English Marks");
+		jp.add(lEnglish);
+		jp.add(tEnglish);
+		jp.add(b1);
+		add(jp);
+
+		b1.addActionListener(new ActionListener() {
+
+			public void actionPerformed(ActionEvent e) {
+				String val = tname.getText();
+				JLabel l1 = new JLabel("Welcome " + val);
+				int sub1 = Integer.parseInt(tMath.getText());
+				int sub2 = Integer.parseInt(tScience.getText());
+				int sub3 = Integer.parseInt(tEnglish.getText());
+				int sum = sub1 + sub2 + sub3;
+				float average = sum / 3;
+				JLabel l2 = new JLabel("Average " + average);
+				JPanel jip = new JPanel();
+				jip.add(l1);
+				jip.add(l2);
+				JFrame inf = new JFrame();
+				inf.setVisible(true);
+				inf.add(jip);
+				inf.setSize(500, 300);
+			}
+		});
+	}
+
+	public static void main(String[] args) {
+		ReportCard rc = new ReportCard();
+		rc.setSize(1000, 500);
+		rc.setVisible(true);
+	}
+}
+//to run in terminal
+// set path=C:\Program Files\Java\jdk-1.8\bin;
+// javac ReportCard.java
+// java ReportCard
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+===============================================================================================================================================================
+
+// practical no.4 JDBC 
+// code 1 retrive data 
+import java.sql.*;
+
+public class retriveDemo {
+   static final String DB_URL = "jdbc:mysql://localhost/sakila";
+   static final String USER = "root";
+   static final String PASS = "root";
+   static final String selectquery = "SELECT actor_id,first_name,last_name FROM actor";
+
+   public static void main(String[] args) {
+
+      try {
+         Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
+         Statement stmt = conn.createStatement();
+         ResultSet rs = stmt.executeQuery(selectquery);
+
+         while (rs.next()) {
+
+            System.out
+                  .println(rs.getInt("actor_id") + " " + rs.getString("first_name") + " " + rs.getString("last_name"));
+
+         }
+      } catch (SQLException e) {
+         System.out.println("error occured");
+      }
+   }
+}
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------------
+// code 2 inster data
+
+import java.sql.*;
+
+public class insertDemo 
+{
+   static final String DB_URL = "jdbc:mysql://localhost/sakila";
+   static final String USER = "root";
+   static final String PASS = "root";
+   
+   static final String insertquery = "insert into actor(actor_id,first_name,last_name) values(1001,'E&TC','AVCOE')";
+   
+   public static void main(String[] args) 
+   {
+    
+      try 
+      {
+         Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
+         Statement stmt = conn.createStatement();
+         stmt.executeUpdate(insertquery);
+         System.out.println("Entry successfully inserted");
+         
+      } 
+      catch (SQLException e) 
+      {
+        System.out.println("Catch block executed");
+      } 
+   }
+}
+
+// to run in Eclipse IDE 
+// create project and during that load the jar file
+// and run
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+===============================================================================================================================================================
+// practical no.5 RMI
+
+//code 1 
+
+import java.rmi.*;
+interface one extends Remote
+{
+    public int palin(String a) throws RemoteException;
+}
+--------------------------------------------------------------
+//code 2
+import java.rmi.*;
+import java.lang.*;
+import java.rmi.server.*;
+public class two extends UnicastRemoteObject implements one
+{
+    public two() throws RemoteException { }
+
+    public int palin(String a) throws RemoteException
+    {
+        
+        StringBuffer str = new StringBuffer(a);
+        String str1 = str.toString();
+        System.out.println("Print : " + str1.toString());
+
+        StringBuffer str2 = str.reverse();   
+        String str3 = str.toString();
+        System.out.println("Print : " + str3.toString());
+        int b = str1.compareTo(str3);
+
+        System.out.println("Print : " + b);
+        if (b == 0)
+            return 1;
+        else
+            return 0;
+    }
+}
+--------------------------------------------------------------
+//code 3
+import java.io.*;
+import java.rmi.*;
+import java.net.*;
+public class rmiserver
+{
+    public static void main(String args[]) throws Exception
+    {
+        try
+        {
+            two twox = new two();
+            Naming.bind("palin", twox);
+            System.out.println("Object is registered with RMI Registry");
+            System.out.println("Server is ready. Now run Client program");
+        }
+        catch(Exception e)
+        {
+            System.out.println("Exception" + e);
+        }
+    }
+}
+--------------------------------------------------------------
+//code 4
+
+import java.io.*;
+import java.rmi.*;
+import java.net.*;
+public class rmiclient
+{
+    public static void main(String args[]) throws Exception
+    {
+        try
+        {
+            one onex = (one)Naming.lookup("rmi://localhost/palin");
+
+            int m = onex.palin("madam");
+            
+            if (m == 1)
+            {
+                System.out.println("The given string is a Palindrome");
+            }
+            else
+            {
+                System.out.println("The given string is not a Palindrome");
+            }
+        }
+        catch (Exception e)
+        {
+            System.out.println("Exception" + e);
+        }
+    }
+}
+-----------------------------------------------
+//save all code 4 in one folder 
+//open  terminal folder and run
+//javac *.java
+//start rmiregistry
+//java rmiserver
+
+// open new terminal same folder
+//java rmiclient
+
+
+
+
+
+
+
+
+
+
+
+
+
+===============================================================================================================================================================
+// practical no.6 InetAdderss class
+
+import java.io.*;
+import java.net.*;
+
+public class InetDemo {
+
+    public static void main(String[] args) {
+        try {
+            InetAddress ip = InetAddress.getByName("localhost");
+            System.out.println("Host name: " + ip.getHostName());
+            System.out.println("IP Address: " + ip.getHostAddress());
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+
+//to run in terminal
+// javac InetDemo.java
+// java InetDemo
+
+
+
+
+
+
+
+
+
+===============================================================================================================================================================
+// practical no.7  Servlet  username and password from client
+<html>
+<body>
+
+<form action="server" method="post">
+
+Enter Username <input type="text" name="txtN1"><br>
+Enter Password <input type="text" name="txtN2"><br>
+
+<input type="submit" value="Print">
+
+</form>
+
+</body>
+</html>
+----------------------------------------------------------------
+import java.io.IOException;
+import java.io.PrintWriter;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+@WebServlet("/server")
+public class Server extends HttpServlet {
+
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
+        response.setContentType("text/html");
+        PrintWriter out = response.getWriter();
+
+        String uname = request.getParameter("txtN1");
+        String pwd = request.getParameter("txtN2");
+
+        out.println("Username: " + uname + "<br>");
+        out.println("Password: " + pwd);
+    }
+}
+
+
+
+
+//
+//
+
+
+
+
+
+
+===============================================================================================================================================================
+// practical no.8  JDBC code
+===============================================================================================================================================================
+// practical no.9  JSP code
+//index.html
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="ISO-8859-1">
+    <title>Insert title here</title>
+</head>
+<body>
+    <form action="satish.jsp">
+        <input type="text" name="uname">
+        <input type="submit" value="go"><br/>
+    </form>
+</body>
+</html>
+
+----------------------------------------------------
+//satish.jsp
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="ISO-8859-1">
+    <title>Insert title here</title>
+</head>
+<body>
+
+<h2>Hello JSP Practical</h2>
+<%
+    String name = request.getParameter("uname");
+    out.print("Welcome " + name);
+%>
+
+</body>
+</html>
+===============================================================================================================================================================
+// practical no.10  servlet code calculator
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="ISO-8859-1">
+    <title>Simple Calculator</title>
+</head>
+<body>
+    <h2>Simple Calculator</h2>
+    <form action="CalculatorServlet" method="post">
+        Enter First Number: <input type="text" name="txtN1"><br><br>
+        Enter Second Number: <input type="text" name="txtN2"><br><br>
+        Select an Operation: <br>
+        <input type="radio" name="opr" value="+"> Addition
+        <input type="radio" name="opr" value="-"> Subtraction
+        <input type="radio" name="opr" value="*"> Multiplication
+        <input type="radio" name="opr" value="/"> Division
+        <br><br>
+        <input type="reset" value="Reset">
+        <input type="submit" value="Calculate">
+    </form>
+</body>
+</html>
+---------------------------------------------------------------------------------------------
+
+import java.io.IOException;
+import java.io.PrintWriter;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+@WebServlet("/CalculatorServlet")
+public class CalculatorServlet extends HttpServlet {
+    private static final long serialVersionUID = 1L;
+
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
+        response.setContentType("text/html");
+        PrintWriter out = response.getWriter();
+
+        try {
+            // Get input numbers
+            double n1 = Double.parseDouble(request.getParameter("txtN1"));
+            double n2 = Double.parseDouble(request.getParameter("txtN2"));
+            String opr = request.getParameter("opr");
+
+            double result = 0;
+
+            // Perform operation
+            switch (opr) {
+                case "+": result = n1 + n2; break;
+                case "-": result = n1 - n2; break;
+                case "*": result = n1 * n2; break;
+                case "/":
+                    if (n2 != 0) result = n1 / n2;
+                    else {
+                        out.println("<h2>Error: Cannot divide by zero!</h2>");
+                        return;
+                    }
+                    break;
+                default:
+                    out.println("<h2>Error: Invalid operation!</h2>");
+                    return;
+            }
+
+            // Show result
+            out.println("<h2>Result: " + result + "</h2>");
+            out.println("<a href='calc.html'>Back to Calculator</a>");
+
+        } catch (NumberFormatException e) {
+            out.println("<h2>Error: Please enter valid numbers!</h2>");
+            out.println("<a href='calc.html'>Back to Calculator</a>");
+        }
+    }
+}
+
+// tomcat 9 or less javax
+//tomcat 10 or 11 jakarta 
+
+
